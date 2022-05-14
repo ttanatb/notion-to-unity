@@ -1,0 +1,15 @@
+{
+    "name": "NotionToUnity.editor",
+    "references": [
+        "GUID:5f77989711660dd4c9dc3f2158375dd4"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

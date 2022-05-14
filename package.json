@@ -1,0 +1,11 @@
+{
+  "name": "com.tanatb.notiontounity",
+  "version": "1.0.0",
+  "displayName": "NotionToUnity",
+  "type": "tool",
+  "hideInEditor": false,
+  "description": "For retreiving notion db to Unity Editor",
+  "dependencies": {
+    "com.unity.nuget.newtonsoft-json": "3.0.1"
+  }
+}
