@@ -18,7 +18,7 @@ Syncs the items from the database into a scriptable object
 ## Installation
 Install via git url by adding this in your manifest.json
 ```
-"com.tanatb.2d.rigr": "https://github.com/ttanatb/notion-to-unity.git#upm"
+"com.tanatb.notiontounity": "https://github.com/ttanatb/notion-to-unity.git#upm"
 ```
 
 ## Dependencies
