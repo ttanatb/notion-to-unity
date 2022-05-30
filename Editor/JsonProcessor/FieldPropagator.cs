@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections;
 using Newtonsoft.Json.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 // ReSharper disable once CheckNamespace
 namespace NotionToUnity.Editor
 {
-    public class DatabaseItemGenerator : MonoBehaviour
+    public class FieldPropagator : MonoBehaviour
     {
         private static IDictionary GetDictionary(ScriptableObject localDbSo)
         {
@@ -26,13 +27,23 @@ namespace NotionToUnity.Editor
 
             var dictionary = GetDictionary(localDbSo);
             dictionary.Clear();
-            var dbItemType = dictionary.GetType().GetGenericArguments()[1];
+            var genericArgs = dictionary.GetType().GetGenericArguments();
+            Type dbItemType = null;
+            if (genericArgs.Length >= 2)
+                dbItemType = genericArgs[1];
+            else
+            {
+                // For serialized dictionary.
+                Assert.IsNotNull(dictionary.GetType().BaseType);
+                dbItemType = dictionary.GetType().BaseType?.GetGenericArguments()[1];
+            }
 
             foreach (var row in json["results"])
             {
                 var properties = row["properties"];
                 Assert.IsNotNull(properties);
 
+                // TODO: support title field with different name
                 // get name to use as key-value
                 Assert.IsNotNull(properties["Name"]);
                 var name = new NotionText(properties["Name"], dbItemType);
@@ -61,13 +72,20 @@ namespace NotionToUnity.Editor
                     // Set each of the db item's field to the value from notion.
                     object value = notionTypePropertyInfo.GetValue(notionProperty);
                     string fieldName = currProperty.GetKey().RemoveSpaces();
-                    dbItemType.GetField(fieldName).SetValue(dbItem, value);
+                    var field = dbItemType.GetField(fieldName);
+
+                    Assert.IsNotNull(field);
+                    field.SetValue(dbItem, value);
                 }
 
                 dictionary[name.Value] = dbItem;
             }
 
             Debug.Log(localDbSo);
+
+            EditorUtility.SetDirty(localDbSo);
+            Undo.RecordObject(localDbSo, "Updated data");
+            AssetDatabase.SaveAssets();
         }
     }
 }

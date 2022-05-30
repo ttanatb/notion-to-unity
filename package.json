@@ -1,6 +1,6 @@
 {
   "name": "com.tanatb.notiontounity",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "displayName": "NotionToUnity",
   "type": "tool",
   "hideInEditor": false,

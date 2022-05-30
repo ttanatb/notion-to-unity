@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using Newtonsoft.Json.Linq;
 
 // ReSharper disable once CheckNamespace
 namespace NotionToUnity.Editor
@@ -12,15 +15,22 @@ namespace NotionToUnity.Editor
             IEnumerable<string> includes,
             IEnumerable<string> disableWarnings)
         {
-            foreach (string s in includes)
-                writer.WriteLine($"using {s};");
+            if (includes != null)
+            {
+                foreach (string s in includes)
+                    writer.WriteLine($"using {s};");
 
-            writer.WriteLine();
+                writer.WriteLine();
+            }
 
-            foreach (string s in disableWarnings)
-                writer.WriteLine($"// Resharper disable {s};");
+            if (disableWarnings != null)
+            {
+                foreach (string s in disableWarnings)
+                    writer.WriteLine($"// Resharper disable {s};");
 
-            writer.WriteLine();
+                writer.WriteLine();
+            }
+
             writer.WriteLine("// Generated code from NotionToUnity");
             writer.WriteLine();
         }
@@ -72,6 +82,29 @@ namespace NotionToUnity.Editor
 
             return scriptableObjs;
 
+        }
+
+        public static string GetKey(this JToken token)
+        {
+            string path = token.Path;
+            if (path[path.Length - 1] == ']')
+            {
+                int index = path.LastIndexOf('[');
+                string key = path.Substring(index);
+
+                // Trim first and last 2 chars ("['key']" -> "key")
+                return key.Substring(2, key.Length - 4);
+            }
+            else
+            {
+                int index = path.LastIndexOf('.');
+                return path.Substring(index + 1);
+            }
+        }
+
+        public static string RemoveSpaces(this string s)
+        {
+            return s.Replace(" ", "");
         }
     }
 }

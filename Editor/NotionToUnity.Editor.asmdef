@@ -1,7 +1,8 @@
 {
     "name": "NotionToUnity.editor",
     "references": [
-        "GUID:5f77989711660dd4c9dc3f2158375dd4"
+        "GUID:5f77989711660dd4c9dc3f2158375dd4",
+        "GUID:703b3af65850d584cbddd89bf054f2a1"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -4,9 +4,9 @@ using Newtonsoft.Json.Linq;
 using UnityEngine.Assertions;
 
 // ReSharper disable once CheckNamespace
-namespace NotionToUnity
+namespace NotionToUnity.Editor
 {
-    public class NotionText : NotionProperty<string>
+    public class NotionText : NotionType<string>
     {
         public NotionText(JToken property, Type dbItemType) : base(property, dbItemType)
         {

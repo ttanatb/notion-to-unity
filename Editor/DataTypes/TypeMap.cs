@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 // ReSharper disable once CheckNamespace
-namespace NotionToUnity
+namespace NotionToUnity.Editor
 {
     public static class TypeMap
     {
@@ -11,11 +12,16 @@ namespace NotionToUnity
             { "rich_text", typeof(NotionText) },
             { "title", typeof(NotionText) },
             { "select", typeof(NotionSelect) },
+            { "relation", typeof(NotionRelation) }
         };
 
         public static Type GetType(string typeString)
         {
-            return STRING_TO_NOTION_TYPE[typeString];
+            if (STRING_TO_NOTION_TYPE.ContainsKey(typeString))
+                return STRING_TO_NOTION_TYPE[typeString];
+
+            Debug.LogError($"Unsupported type encountered: {typeString}");
+            return null;
         }
     }
 }

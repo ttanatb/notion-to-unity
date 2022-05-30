@@ -3,9 +3,9 @@ using Newtonsoft.Json.Linq;
 using UnityEngine.Assertions;
 
 // ReSharper disable once CheckNamespace
-namespace NotionToUnity
+namespace NotionToUnity.Editor
 {
-    public class NotionSelect : NotionProperty<int>
+    public class NotionSelect : NotionType<int>
     {
         private Type m_valueType;
 
