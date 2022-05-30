@@ -135,20 +135,23 @@ namespace NotionToUnity.Editor
                 new[] { "CheckNamespace" });
             writer.WriteNamespace(m_namingConvention.Namespace, ref indent);
 
+            // Define SerializedDict
             writer.WriteCode(indent, "[System.Serializable]");
             writer.WriteCode(indent, $"public class Id{notionDb.Name}Dictionary : " +
                 $"SerializableDictionary<string, {notionDb.Name}> {{ }}");
+            writer.WriteLine();
 
             writer.WriteCode(indent,
                 $"[CreateAssetMenu(fileName = \"{name}\", menuName = \"NotionToUnity/Db/{name}\", order = 0)]");
             writer.WriteCode(indent, $"public class {name} : ScriptableObject");
             writer.WriteOpenBracket(ref indent);
 
-            writer.WriteCode(indent,
-                $"public Id{notionDb.Name}Dictionary Data =" +
-                $" new Id{notionDb.Name}Dictionary();");
+            // Define property
+            writer.WriteCode(indent, "[field: SerializeField]");
+            writer.WriteCode(indent, $"public Id{notionDb.Name}Dictionary Data {{ get; private set; }}");
             writer.WriteLine();
 
+            // toString method
             writer.WriteCode(indent, "public override string ToString()");
             writer.WriteOpenBracket(ref indent);
 

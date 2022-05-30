@@ -130,8 +130,8 @@ namespace NotionToUnity.Editor
                 }
 
                 Assert.IsFalse(soInstances.Length == 0,
-                    $"Missing instance of ScriptableObject. As a workaround, please create the" +
-                    $"{generatedSo.SoTypeName} ScriptableObject manually.");
+                    "Missing instance of ScriptableObject. As a workaround, please wait until after asset " +
+                    "database is refreshed, then press the button again.");
                 var librarySo = soInstances[0];
 
                 FieldPropagator.Process(dbContentsJsons[generatedSo.DbId], librarySo);
@@ -139,33 +139,6 @@ namespace NotionToUnity.Editor
             }
         }
 
-        private void FillSoFields()
-        {
-            // WebRequestHandler.GetDatabaseContents(
-            //     m_databases, m_apiKey, m_version, jsons => {
-            //         for (int i = 0; i < jsons.Count(); i++)
-            //             if (m_logDebug) Debug.Log(jsons[i]);
-            //
-            //         foreach (var generatedSo in m_generatedSos)
-            //         {
-            //             var soInstances = ClassExtensions.GetAllInstances(generatedSo.SoTypeName);
-            //             if (soInstances.Length > 1)
-            //             {
-            //                 Debug.LogError(
-            //                     $"Found multiple {generatedSo.SoTypeName} databases (too many ScriptableObject instances)");
-            //             }
-            //
-            //             Assert.IsFalse(soInstances.Length == 0,
-            //                 $"Missing instance of ScriptableObject. As a workaround, please create the" +
-            //                 $"{generatedSo.SoTypeName} ScriptableObject manually.");
-            //             var librarySo = soInstances[0];
-            //
-            //             FieldPropogator.Process(TestData.Values.DbResult, librarySo);
-            //         }
-            //     }, () => {
-            //         Debug.LogError("Error querying database content.");
-            //     });
-        }
 
         private void OnGUI()
         {
@@ -187,11 +160,6 @@ namespace NotionToUnity.Editor
             if (GUILayout.Button("Generate Code"))
             {
                 GenerateCode();
-            }
-
-            if (GUILayout.Button("Fill Database"))
-            {
-                FillSoFields();
             }
 
             m_logDebug = EditorGUILayout.Toggle("Debug Log", m_logDebug);

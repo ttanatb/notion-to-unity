@@ -13,7 +13,8 @@ namespace NotionToUnity.Editor
         private static IDictionary GetDictionary(ScriptableObject localDbSo)
         {
             var soType = localDbSo.GetType();
-            var dictInfo = soType.GetField("Data");
+            var dictInfo = soType.GetProperty("Data");
+            Assert.IsNotNull(dictInfo);
             return (IDictionary)dictInfo.GetValue(localDbSo);
         }
 
