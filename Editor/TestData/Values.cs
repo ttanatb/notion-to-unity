@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
 
-// ReSharper disable once CheckNamespace
 namespace NotionToUnity.TestData
 {
     public static class Values

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
+using NotionToUnity.Utils;
 
-// ReSharper disable once CheckNamespace
-namespace NotionToUnity.Editor
+namespace NotionToUnity.DataTypes
 {
+    /// <summary>
+    /// Helper class used to instantiate the correct local type based on the JSON.
+    /// </summary>
     public static class TypeMap
     {
         private static readonly Dictionary<string, Type> STRING_TO_NOTION_TYPE = new Dictionary<string, Type>()
@@ -15,12 +17,17 @@ namespace NotionToUnity.Editor
             { "relation", typeof(NotionRelation) }
         };
 
+        /// <summary>
+        /// Gets the local type of the corresponding name from Notion property
+        /// </summary>
+        /// <param name="typeString">Type string provided from Notion JSON</param>
+        /// <returns>The local type</returns>
         public static Type GetType(string typeString)
         {
             if (STRING_TO_NOTION_TYPE.ContainsKey(typeString))
                 return STRING_TO_NOTION_TYPE[typeString];
 
-            Debug.LogError($"Unsupported type encountered: {typeString}");
+            Logger.LogError($"Unsupported type encountered: {typeString}");
             return null;
         }
     }

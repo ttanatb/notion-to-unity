@@ -3,18 +3,23 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using Newtonsoft.Json.Linq;
-using UnityEngine.Assertions;
+using NotionToUnity.Utils;
 
-// ReSharper disable once CheckNamespace
-namespace NotionToUnity.Editor
+namespace NotionToUnity.DataTypes
 {
+    /// <summary>
+    /// Corresponds to a relational database type in Notion.
+    /// </summary>
     public class NotionRelation : NotionType<int[]>
     {
-        private Type m_valueType;
+        /// <summary>
+        /// Type of the corresponding database.
+        /// </summary>
+        // private Type m_valueType;
 
-        public NotionRelation(JToken property, Type dbItemType) : base(property, dbItemType)
+        public NotionRelation(JToken property, Type localDbItemType) : base(property, localDbItemType)
         {
-            Assert.AreEqual("relation", m_notionType);
+            Asserter.AreEqual("relation", m_notionType);
 
             var relations = property[m_notionType];
             if (!relations.HasValues)
@@ -24,24 +29,18 @@ namespace NotionToUnity.Editor
             Value = new int[count];
             using (var hasher = MD5.Create())
             {
-
                 for (int i = 0; i < count; i++)
                 {
                     var relation = relations[i];
-                    Assert.IsNotNull(relation);
-                    Assert.IsNotNull(relation["id"]);
+                    Asserter.IsNotNull(relation);
+                    Asserter.IsNotNull(relation["id"]);
 
                     string id = relation["id"].Value<string>();
+                    Asserter.IsNotNull(id);
                     Value[i] = BitConverter.ToInt32(
                         hasher.ComputeHash(Encoding.UTF8.GetBytes(id)), 0);
                 }
             }
-        }
-
-
-        public void ResolveType() // TODO: Add params
-        {
-            // TODO: figure out value type?
         }
     }
 }
