@@ -1,6 +1,9 @@
 # notion-to-unity
 A tool for retrieving notion databases in Unity (for items and what not)
-=======
+
+Dev status: Hiatus
+
+Other projects are taking higher priotiy, but with an intention for this to be picked back up again.
 
 ## Screenshots
 Using a window in Unity
